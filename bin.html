@@ -1,0 +1,333 @@
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+	<head>
+		<style>	
+		body {
+			margin: 0px;
+		}
+		.bingotable {
+			width: 100vw;
+			height: 100vw;
+			display: block;
+		}
+		.bingocolumn {
+			float: left;
+			width: 20%;
+			height: 100%
+		}
+		.bingosquare {
+			width: 100%;
+			height: 20%;
+		}
+
+		.item {
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			height: 100%;
+			background-color: white;
+			border: 1px solid #000000;
+
+		}
+		.toggleitem {
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			height: 100%;
+			background-color: aqua;
+			border: 1px solid #000000;
+		}
+
+		.bingoitem {
+			width: 100%;
+			min-height: 20vw;
+			border-bottom: 1px solid #000000;
+		}
+
+		.bingotoggle {
+			width: 100%;
+			min-height: 20vw;
+			border-bottom: 1px solid #000000;
+			background-color: aqua;
+		}
+		p {
+			margin: 0px;
+		}
+
+		</style>
+		<script type="text/javascript">
+
+			var game =["Galapagos Barn Owls",
+						"Galapagos Black Tipped Shark",
+						"Galapagos Brown Noddy Tern",
+						"Galapagos Brown Pelican Birds",
+						"Galapagos Brydes Whale",
+						"Galapagos Dark Billed Cuckoo",
+						"Galapagos Dove",
+						"Galapagos Eels",
+						"Galapagos Fin Whales",
+						"Galapagos Finches",
+						"Galapagos Flamingo",
+						"Galapagos Flightless Cormorant Sea Bird",
+						"Galapagos Flycatcher Bird",
+						"Galapagos Fur Seals",
+						"Galapagos Gecko",
+						"Galapagos Giant Tortoise",
+						"Galapagos Great Blue Heron Bird",
+						"Galapagos Great Frigate Bird",
+						"Galapagos Green Sea Turtle",
+						"Galapagos Hammerhead Shark",
+						"Galapagos Hawk",
+						"Galapagos Hoary Bat",
+						"Galapagos Humpback Whale",
+						"Galapagos Killer Whale",
+						"Galapagos Land Iguana",
+						"Galapagos Lava Gull Bird",
+						"Galapagos Lava Heron Bird",
+						"Galapagos Lava Lizard",
+						"Galapagos Marine Iguana",
+						"Galapagos Masked Booby Bird",
+						"Galapagos Minke Whale",
+						"Galapagos Mockingbird",
+						"Galapagos Nazca Booby Bird",
+						"Galapagos Penguin",
+						"Galapagos Rail Bird",
+						"Galapagos Rays",
+						"Galapagos Red Bat",
+						"Galapagos Red Billed Tropic Bird",
+						"Galapagos Red Footed Booby Bird",
+						"Galapagos Rice Rat",
+						"Galapagos Sea Lions",
+						"Galapagos Short Eared Owl",
+						"Galapagos Short Finned Pilot Whale",
+						"Galapagos Silky Shark",
+						"Galapagos Smooth Billed Ani Bird",
+						"Galapagos Snakes",
+						"Galapagos Sperm Whale",
+						"Galapagos Storm Petrel Bird",
+						"Galapagos Swallow Tailed Gull",
+						"Galapagos Waved Albatross",
+						"Galapagos Whale Shark",
+						"Galapagos Whimbrel Birds",
+						"Galapagos White Cheeked Pintail Duck",
+						"Galapagos White Tipped Reef Shark",
+						"Galapagos Willet Bird",
+						"Galapagos Yellow Warbler Bird",
+						"Galapagos Yellow-Crowned Night Heron",
+						"Gemsbok",
+						"Gentoo Penguin",
+						"Gerenuk",
+						"Gharial",
+						"Giant Anteater",
+						"Giant Panda Bear",
+						"Giant Sable Antelope",
+						"Giraffe",
+						"Goats",
+						"Gold, Silver and Blue Monkeys",
+						"Golden Eagle",
+						"Golden Pheasant",
+						"Gorillas",
+						"Grasshopper",
+						"Great Bittern",
+						"Great Crested Newt",
+						"Great Green Macaw",
+						"Great White African Pelican Birds",
+						"Great White Shark",
+						"Greater Flamingo",
+						"Greater Horseshoe Bat",
+						"Greater Mouse-Eared Bat",
+						"Greater Spot-Nosed Monkeys",
+						"Green Crabs",
+						"Green Scarab Beetle",
+						"Grevy’s Zebra",
+						"Grey Jungle Fowl Bird",
+						"Grey Loerie bird",
+						"Grey Partridge",
+						"Grey Seal",
+						"Grey Wolf",
+						"Grivet Monkeys",
+						"Grizzly Bear",
+						"Ground Beetle",
+						"Ground Centipede",
+						"Guinea Pigs"]
+
+			var toggledcells = []
+			function toggle(element) {
+				cookiename = element.id
+				bingoelement = document.getElementById("text"+element.id)
+				if (element.className == "item"){
+					element.className = "toggleitem";
+					bingoelement.className = "bingotoggle"
+					setCookie(cookiename, "toggled", 5)
+				} else if (element.className == "toggleitem"){
+					element.className = "item";
+					bingoelement.className = "bingoitem"
+					setCookie(cookiename, "untoggled", -1)
+				}
+			}
+
+			function toggleitem(element) {
+				itemelement = document.getElementById(element.id.replace("text",""))
+				cookiename = itemelement.id
+				if (element.className == "bingoitem"){
+					element.className = "bingotoggle";
+					itemelement.className = "toggleitem";
+					setCookie(cookiename, "toggled", 5)
+				} else if (element.className == "bingotoggle"){
+					element.className = "bingoitem";
+					itemelement.className = "item";
+					setCookie(cookiename, "untoggled", -1)
+				}
+			}
+
+			function setCookie(cname, cvalue, exdays) {
+			    var d = new Date();
+			    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			    var expires = "expires="+ d.toUTCString();
+			    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+			}
+
+			function getCookie(cname) {
+			    var name = cname + "=";
+			    var ca = document.cookie.split(';');
+			    for(var i = 0; i <ca.length; i++) {
+			        var c = ca[i];
+			        while (c.charAt(0)==' ') {
+			            c = c.substring(1);
+			        }
+			        if (c.indexOf(name) == 0) {
+			            return c.substring(name.length,c.length);
+		   			}
+		   		}
+   				return "";
+			}
+
+			 window.onload = function () { 
+			 	//check the game hash
+
+			 	//reload toogled cells
+			 	var cells = ["1-1","1-2","1-3","1-4","1-5","2-1","2-2","2-3","2-4","2-5","3-1","3-2","3-3","3-4","3-5","4-1","4-2","4-3","4-4","4-5","5-1","5-2","5-3","5-4","5-5"]
+			 	for (i = 0; i < cells.length; i++) {
+			 		if (getCookie(cells[i]) != "" ){
+			 			toggle(document.getElementById(cells[i]))
+			 		}
+				}
+	 		}		
+    	</script>
+	</head>
+	<body>
+		<div class = "bingotable">
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-1">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-2">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-3">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-4">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-5">1</p>
+				</div>
+			</div>
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-1">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-2">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-3">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-4">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-5">1</p>
+				</div>
+			</div>
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-1">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-2">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-3">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-4">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-5">1</p>
+				</div>
+			</div>
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-1">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-2">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-3">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-4">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-5">1</p>
+				</div>
+			</div>
+
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-1">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-2">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-3">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-4">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-5">1</p>
+				</div>
+			</div>
+		</div>
+		<div class="bingoitem", id = "text1-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text1-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text1-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text1-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text1-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+	</body> 
+</html>
