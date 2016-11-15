@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<meta charset="ASCII">
+<html>
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/> <!--320-->
+	<head>
+		<style>	
+		body {
+			margin: 0px;
+		}
+		.bingotable {
+			width: 100vw;
+			height: 100vw;
+			display: block;
+		}
+		.bingocolumn {
+			float: left;
+			width: 20%;
+			height: 100%
+		}
+		.bingosquare {
+			width: 100%;
+			height: 20%;
+		}
+
+		.item {
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			height: 100%;
+			background-color: white;
+			border: 1px solid #000000;
+			font-size: 5vw;
+		}
+		.toggleitem {
+			margin: 0;
+			padding: 0;
+			text-align: center;
+			height: 100%;
+			background-color: aqua;
+			border: 1px solid #000000;
+			font-size: 5vw;
+
+		}
+
+		.bingoitem {
+			width: 100%;
+			min-height: 20vw;
+			border-bottom: 1px solid #000000;
+		}
+
+		.bingotoggle {
+			width: 100%;
+			min-height: 20vw;
+			border-bottom: 1px solid #000000;
+			background-color: aqua;
+		}
+		.bingolistnum{
+			float: left;
+			height: 20vw
+			width: 20vw;
+		}
+		p {
+			margin: 0px;
+		}
+
+		</style>
+		<script type="text/javascript">
+
+			var freespace = "Mario asks a question (Free Space)"
+
+			var game =["Avi is not buying what the professor is selling",
+			"Resit Falls Asleep",
+			"Resit answers a question: \"Professor...\"",
+			"Resit's got that limp hand up",
+			"Margolis is clearly flustered by the current slide",
+			"Andrew Marquis asks a question to segue us to the next slide",
+			"Jason Fan is late/takes his damn time walking out in the middle of class",
+			"How the fuck are we talking about Airplane Ticket sales again?",
+			"John Grogan lands a pun so hard",
+			"Anyone in the class nails a \"That's what she said\"",
+			"Oliver's comment is a little intense. He means well.",
+			"Someone uses \"A-a-ron\" as the example in their comment",
+			"Kelli is too real for this class right now",
+			"James apologizes if his question has already been covered",
+			"Someone asks something that was just asked... like a minute ago",
+			"Someone asks when something is due when it's pretty fucking clear they should know by now",
+			"Somebody completely dominates a cold-call question",
+			"That is a good question. We will get to that in a few slides",
+			"Sam Benson laughs at out loud",
+			"Professor references Kind Bars or the $20 bill game",
+			"Karen disagrees. With everything.",
+			"Clicker Question gets majority B response (over 50%)",
+			"At least 2 people bail before class has ended",
+			"There is a reference to WTP",
+			"There is a reference to NPV",
+			"Ally is not pleased she was cold-called",
+			"At least 3 people get up - leave - and come back in the middle of class",
+			"Someone slips the word \"Buccaneer\" into their answer",
+			"Something is clearly 'For the Boys'... and girls... all inclusive",
+			"Louis spins his pen both backward and forward at least five times in a row",
+			"Fareen is Canadian eh?",
+			"Chris makes reference to TFA or the Wesleyan Football team",
+			"Professor references Mexico trip",
+			"Teixeira is terribly fascinated with the most minor element of today's lecture",
+			"Back to back comments at a level of bro unable to be replicated by any another cluster",
+			"Besbe's voice squeaks"]
+			var toggledcells = []
+			function toggle(element) {
+				cookiename = element.id
+				bingoelement = document.getElementById("text"+element.id)
+				if (element.className == "item"){
+					element.className = "toggleitem";
+					bingoelement.className = "bingotoggle"
+					setCookie(cookiename, "toggled", 5)
+				} else if (element.className == "toggleitem"){
+					element.className = "item";
+					bingoelement.className = "bingoitem"
+					setCookie(cookiename, "untoggled", -1)
+				}
+			}
+
+			function toggleitem(element) {
+				itemelement = document.getElementById(element.id.replace("text",""))
+				cookiename = itemelement.id
+				if (element.className == "bingoitem"){
+					element.className = "bingotoggle";
+					itemelement.className = "toggleitem";
+					setCookie(cookiename, "toggled", 5)
+				} else if (element.className == "bingotoggle"){
+					element.className = "bingoitem";
+					itemelement.className = "item";
+					setCookie(cookiename, "untoggled", -1)
+				}
+			}
+
+			function setCookie(cname, cvalue, exdays) {
+			    var d = new Date();
+			    d.setTime(d.getTime() + (exdays*24*60*60*1000));
+			    var expires = "expires="+ d.toUTCString();
+			    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+			}
+
+			function getCookie(cname) {
+			    var name = cname + "=";
+			    var ca = document.cookie.split(';');
+			    for(var i = 0; i <ca.length; i++) {
+			        var c = ca[i];
+			        while (c.charAt(0)==' ') {
+			            c = c.substring(1);
+			        }
+			        if (c.indexOf(name) == 0) {
+			            return c.substring(name.length,c.length);
+		   			}
+		   		}
+   				return "";
+			}
+
+			function shuffle(a) {
+			    var j, x, i;
+			    for (i = a.length; i; i--) {
+			        j = Math.floor(Math.random() * i);
+			        x = a[i - 1];
+			        a[i - 1] = a[j];
+			        a[j] = x;
+			    }
+			}
+
+
+			 window.onload = function () { 
+		 		var cells = ["1-1","1-2","1-3","1-4","1-5","2-1","2-2","2-3","2-4","2-5","3-1","3-2","3-3","3-4","3-5","4-1","4-2","4-3","4-4","4-5","5-1","5-2","5-3","5-4","5-5"]
+
+			 	var lastGame = getCookie("game")
+			 	if (lastGame != game.toString()) {
+					setCookie("game", game.toString(), 10)
+					shuffle(game)
+				 	for (i = 0; i < cells.length; i++) {
+				 		if (cells[i] === "3-3") {
+					 		setCookie("text"+cells[i], freespace, 10)
+				 		} else {
+					 		setCookie("text"+cells[i], game[i], 10)
+
+				 		}
+				 		setCookie(cells[i], "", -1)
+					}
+			 	}
+
+			 	//reload toogled cells
+			 	for (i = 0; i < cells.length; i++) {
+		 				var celltext = getCookie("text"+cells[i])
+				 		document.getElementById("text"+cells[i]).childNodes[1].innerHTML = celltext 
+
+			 		if (getCookie(cells[i]) != "" ){
+			 			toggle(document.getElementById(cells[i]))
+			 		}
+				}
+	 		}		
+    	</script>
+	</head>
+	<body>
+		<div class = "bingotable">
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-1">1</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-2">6</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-3">11</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-4">16</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "1-5">21</p>
+				</div>
+			</div>
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-1">2</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-2">7</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-3">12</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-4">17</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "2-5">22</p>
+				</div>
+			</div>
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-1">3</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-2">8</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-3">Free Space</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-4">18</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "3-5">23</p>
+				</div>
+			</div>
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-1">4</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-2">9</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-3">14</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-4">19</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "4-5">24</p>
+				</div>
+			</div>
+
+			<div class = "bingocolumn">
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-1">5</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-2">10</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-3">15</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-4">20</p>
+				</div>
+				<div class = "bingosquare">
+					<p onclick="toggle(this)", class ="item", id = "5-5">25</p>
+				</div>
+			</div>
+		</div>
+		<div class="bingoitem", id = "text1-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-1", onclick="toggleitem(this)"> <p>Test</p> </div>
+
+		<div class="bingoitem", id = "text1-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-2", onclick="toggleitem(this)"> <p>Test</p> </div>
+
+		<div class="bingoitem", id = "text1-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-3", onclick="toggleitem(this)"> <p>Test</p> </div>
+
+		<div class="bingoitem", id = "text1-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-4", onclick="toggleitem(this)"> <p>Test</p> </div>
+
+		<div class="bingoitem", id = "text1-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text2-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text3-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text4-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+		<div class="bingoitem", id = "text5-5", onclick="toggleitem(this)"> <p>Test</p> </div>
+	</body> 
+</html>
